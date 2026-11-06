@@ -1,0 +1,210 @@
+@import "tailwindcss";
+
+/*
+ * Colour values are set on <html> from lib/clinic.ts.
+ * --font-manrope and --font-dm-serif come from next/font.
+ */
+
+:root {
+  --gutter: clamp(1.25rem, 4vw, 2.75rem);
+  --max: 72rem;
+  --header: 4.75rem;
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@theme inline {
+  --color-ivory: var(--ivory);
+  --color-teal: var(--teal);
+  --color-teal-deep: var(--teal-deep);
+  --color-sage: var(--sage);
+  --color-charcoal: var(--charcoal);
+  --color-grey: var(--grey);
+  --color-muted: var(--muted);
+  --color-stone: var(--stone);
+  --font-sans: var(--font-manrope), "Avenir Next", "Segoe UI", sans-serif;
+  --font-serif: var(--font-dm-serif), "Iowan Old Style", Palatino, Georgia, serif;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    color-scheme: light;
+    -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: color-mix(in srgb, var(--sage) 80%, transparent);
+  }
+
+  body {
+    margin: 0;
+    background: var(--ivory);
+    color: var(--charcoal);
+    font-size: 1.0625rem;
+    font-weight: 400;
+    line-height: 1.65;
+    text-rendering: optimizeLegibility;
+    overflow-x: clip;
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-serif), "Iowan Old Style", Palatino, Georgia, serif;
+    font-weight: 400;
+    letter-spacing: -0.022em;
+    line-height: 1.08;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  address {
+    font-style: normal;
+  }
+
+  ::selection {
+    background: var(--sage);
+    color: var(--charcoal);
+  }
+
+  :focus {
+    outline: none;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--charcoal);
+    outline-offset: 3px;
+  }
+
+  .closing :focus-visible {
+    outline-color: var(--ivory);
+  }
+
+  main:focus,
+  main:focus-visible {
+    outline: none;
+  }
+
+  :where(#services, #physicians, #about, #visit, #directions) {
+    scroll-margin-top: 5.75rem;
+  }
+}
+
+.wrap {
+  width: min(var(--max), calc(100% - var(--gutter) * 2));
+  margin-inline: auto;
+}
+
+/*
+ * Bracketed copy is unconfirmed. Keep it readable, but do not set it in the
+ * display face — italic serif made missing details look like quotations.
+ */
+.is-placeholder {
+  font-family: var(--font-sans), "Avenir Next", "Segoe UI", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  letter-spacing: 0;
+  color: var(--muted);
+}
+
+.skip-link {
+  position: absolute;
+  left: 0;
+  top: 0.85rem;
+  z-index: 70;
+  transform: translateY(-180%);
+  border-radius: 0.25rem;
+  background: var(--teal);
+  color: var(--ivory);
+  padding: 0.65rem 0.9rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1;
+  text-decoration: none;
+}
+
+.skip-link:focus {
+  transform: none;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+body.menu-lock {
+  overflow: hidden;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .rise > * {
+    animation: rise 0.8s var(--ease) both;
+  }
+
+  .rise > *:nth-child(2) {
+    animation-delay: 0.08s;
+  }
+
+  .rise > *:nth-child(3) {
+    animation-delay: 0.14s;
+  }
+
+  .rise > *:nth-child(4) {
+    animation-delay: 0.2s;
+  }
+
+  .rise-late {
+    animation: rise 0.95s var(--ease) 0.12s both;
+  }
+
+  #mobile-menu:not([hidden]) {
+    animation: rise 0.35s var(--ease);
+  }
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+@media print {
+  .site-header,
+  .skip-link,
+  #mobile-menu,
+  .no-print {
+    display: none !important;
+  }
+
+  .closing {
+    background: transparent !important;
+    color: var(--charcoal) !important;
+  }
+
+  .closing h2,
+  .closing p {
+    color: var(--charcoal) !important;
+  }
+
+  body {
+    background: white;
+  }
+}
